@@ -19,7 +19,8 @@ import EditImg from './icons/EditImg';
 import Draw from './icons/Draw';
 import Tag from './icons/Tag';
 import Download from './icons/Download';
-import Ruler from './images/measure-control.svg';
+import Ruler from './images/measure.svg';
+import Noruler from './images/clear.svg';
 import './css/main.css';
 
 interface Props extends PanelProps<PanelOptions> {}
@@ -29,22 +30,22 @@ interface State {
   label: string;
 }
 
-L.Polyline = L.Polyline.include({
-  getDistance: function(system: any) {
-    // distance in meters
-    var mDistanse = 0,
-      length = this._latlngs.length;
-    for (var i = 1; i < length; i++) {
-      mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
-    }
-    // optional
-    if (system === 'imperial') {
-      return mDistanse / 1609.34;
-    } else {
-      return mDistanse / 1000;
-    }
-  },
-});
+// L.Polyline = L.Polyline.include({
+//   getDistance: function(system: any) {
+//     // distance in meters
+//     var mDistanse = 0,
+//       length = this._latlngs.length;
+//     for (var i = 1; i < length; i++) {
+//       mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
+//     }
+//     // optional
+//     if (system === 'imperial') {
+//       return mDistanse / 1609.34;
+//     } else {
+//       return mDistanse / 1000;
+//     }
+//   },
+// });
 
 export class MainPanel extends PureComponent<Props, State> {
   id = 'id' + nanoid();
@@ -52,6 +53,7 @@ export class MainPanel extends PureComponent<Props, State> {
   img: any;
   inputFile = createRef<HTMLInputElement>();
   inputField = createRef<HTMLInputElement>();
+  measureLayer: L.FeatureGroup;
 
   state: State = {
     mode: 'Draw',
@@ -69,8 +71,8 @@ export class MainPanel extends PureComponent<Props, State> {
       maxZoom: 21,
     }).addTo(this.map);
 
-    const measureLayer = new L.FeatureGroup();
-    this.map.addLayer(measureLayer);
+    this.measureLayer = new L.FeatureGroup();
+    this.map.addLayer(this.measureLayer);
 
     //@ts-ignore
     var drawControl = new L.Control.Draw({
@@ -110,13 +112,15 @@ export class MainPanel extends PureComponent<Props, State> {
       //   offset: [0, 12],
       //   backgroundColor: 'rgba(0, 0, 0, 0);',
       // });
-      measureLayer.addLayer(e.layer);
+      this.measureLayer.addLayer(e.layer);
     });
   }
 
   componentDidUpdate(prevProps: Props) {}
 
   uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.img) this.map.removeLayer(this.img);
+
     if (e.target.files) {
       const dropFile = e.target.files[0];
       const reader = new FileReader();
@@ -205,6 +209,10 @@ export class MainPanel extends PureComponent<Props, State> {
     drawer.enable();
   };
 
+  clearMeasure = () => {
+    this.measureLayer.clearLayers();
+  };
+
   render() {
     const { width, height } = this.props;
     const { mode, selectFeature, label } = this.state;
@@ -231,16 +239,29 @@ export class MainPanel extends PureComponent<Props, State> {
             <Download mode={mode} />
           </SVGWrapper>
           {/* <button onClick={this.onMeasure}>Measure</button> */}
+        </div>
+        <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 2 }}>
           <img
             src={Ruler}
             style={{
               background: '#fff',
-              padding: '0 8px 0 8px',
+              padding: '0 3px 0 3px',
               borderRadius: 3,
               border: '1px solid #ccc',
               cursor: 'pointer',
             }}
             onClick={this.onMeasure}
+          />
+          <img
+            src={Noruler}
+            style={{
+              background: '#fff',
+              padding: '0 3px 0 3px',
+              borderRadius: 3,
+              border: '1px solid #ccc',
+              cursor: 'pointer',
+            }}
+            onClick={this.clearMeasure}
           />
         </div>
         <div
