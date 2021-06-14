@@ -1,0 +1,28 @@
+{
+  "name": "josm-v2",
+  "version": "1.0.0",
+  "description": "JOSM v2",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "author": "Nam Le",
+  "license": "MIT",
+  "devDependencies": {
+    "@grafana/data": "next",
+    "@grafana/toolkit": "next",
+    "@grafana/ui": "next",
+    "@types/leaflet": "^1.7.0"
+  },
+  "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "^2.11.1",
+    "js-client-file-downloader": "^1.0.7",
+    "leaflet": "^1.7.1",
+    "leaflet-distortableimage": "^0.21.7",
+    "leaflet-draw": "^1.0.4",
+    "leaflet-toolbar": "^0.4.0-alpha.2",
+    "nanoid": "^3.1.23"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "panel",
+  "name": "JOSM v2",
+  "id": "id-josm-v2",
+  "dataFormats": ["table"],
+  "info": {
+    "description": "JOSM v2",
+    "author": {
+      "name": "Nam Le"
+    },
+    "keywords": [],
+    "logos": {
+      "small": "img/josm.svg",
+      "large": "img/josm.svg"
+    },
+    "screenshots": [],
+    "version": "1.0.0",
+    "updated": "2021-06-14"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "6.3.x",
+    "plugins": []
+  }
+}

@@ -1,0 +1,14 @@
+/* .leaflet-container svg:not(.leaflet-zoom-animated) {
+  width: inherit;
+  height: inherit;
+} */
+
+.leaflet-marker-icon,
+.leaflet-div-icon {
+  margin-left: -4px;
+  margin-top: -4px;
+  width: 8px;
+  height: 8px;
+  transform: translate3d(645px, 289px, 0px);
+  z-index: 4289;
+}
