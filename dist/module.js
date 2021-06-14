@@ -42864,7 +42864,7 @@ function (_super) {
     leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxNativeZoom: 18,
-      maxZoom: 21
+      maxZoom: 24
     }).addTo(this.map);
     this.measureLayer = new leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.FeatureGroup();
     this.map.addLayer(this.measureLayer); //@ts-ignore

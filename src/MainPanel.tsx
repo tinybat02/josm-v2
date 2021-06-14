@@ -68,7 +68,7 @@ export class MainPanel extends PureComponent<Props, State> {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxNativeZoom: 18,
-      maxZoom: 21,
+      maxZoom: 24,
     }).addTo(this.map);
 
     this.measureLayer = new L.FeatureGroup();
