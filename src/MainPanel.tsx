@@ -240,7 +240,7 @@ export class MainPanel extends PureComponent<Props, State> {
           </SVGWrapper>
           {/* <button onClick={this.onMeasure}>Measure</button> */}
         </div>
-        <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 2 }}>
+        <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 2, caretColor: 'transparent' }}>
           <img
             src={Ruler}
             style={{

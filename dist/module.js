@@ -42976,7 +42976,8 @@ function (_super) {
         position: 'absolute',
         top: 5,
         right: 5,
-        zIndex: 2
+        zIndex: 2,
+        caretColor: 'transparent'
       }
     }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
       src: _images_measure_svg__WEBPACK_IMPORTED_MODULE_20___default.a,
