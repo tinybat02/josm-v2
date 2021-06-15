@@ -42800,18 +42800,22 @@ function (_super) {
           });
         });
 
+        if (type == 'Draw') {
+          _this.img && _this.img.editing.disable(); //@ts-ignore
+
+          if (!_this.map.pm.controlsVisible()) _this.map.pm.toggleControls(); //@ts-ignore
+
+          _this.map.pm.enableDraw('Line');
+
+          return;
+        }
+
         if (type == 'Upload') {
           (_a = _this.inputFile.current) === null || _a === void 0 ? void 0 : _a.click();
         }
 
         if (type == 'Image') {
           _this.img && _this.img.editing.enable();
-        }
-
-        if (type == 'Draw') {
-          _this.img && _this.img.editing.disable(); //@ts-ignore
-
-          _this.map.pm.enableDraw();
         }
 
         if (type == 'Tag') {
@@ -42831,9 +42835,11 @@ function (_super) {
             group.addLayer(layer);
           });
           var shapes = group.toGeoJSON();
-          console.log('geoman shapes ', shapes);
           js_client_file_downloader__WEBPACK_IMPORTED_MODULE_13__["jsFileDownloader"].makeJSON(shapes, 'floorplan');
-        }
+        } //@ts-ignore
+
+
+        if (_this.map.pm.controlsVisible()) _this.map.pm.toggleControls();
       };
     };
 
@@ -43001,7 +43007,9 @@ function (_super) {
       drawCircleMarker: false,
       drawRectangle: false,
       cutPolygon: false
-    });
+    }); //@ts-ignore
+
+    this.map.pm.toggleControls();
     this.map.on('pm:create', function (e) {
       e.layer.on('click', function (e) {
         var shape = e.target;

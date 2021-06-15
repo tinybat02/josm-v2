@@ -103,6 +103,9 @@ export class MainPanel extends PureComponent<Props, State> {
       cutPolygon: false,
     });
 
+    //@ts-ignore
+    this.map.pm.toggleControls();
+
     this.map.on('pm:create', e => {
       e.layer.on('click', (e: L.LeafletEvent) => {
         const shape = e.target;
@@ -171,18 +174,24 @@ export class MainPanel extends PureComponent<Props, State> {
   handleClick = (type: string) => () => {
     this.setState(prev => ({ ...prev, mode: type, selectFeature: null, label: '' }));
 
+    if (type == 'Draw') {
+      this.img && this.img.editing.disable();
+
+      //@ts-ignore
+      if (!this.map.pm.controlsVisible()) this.map.pm.toggleControls();
+
+      //@ts-ignore
+      this.map.pm.enableDraw('Line');
+
+      return;
+    }
+
     if (type == 'Upload') {
       this.inputFile.current?.click();
     }
 
     if (type == 'Image') {
       this.img && this.img.editing.enable();
-    }
-
-    if (type == 'Draw') {
-      this.img && this.img.editing.disable();
-      //@ts-ignore
-      this.map.pm.enableDraw();
     }
 
     if (type == 'Tag') {
@@ -200,9 +209,11 @@ export class MainPanel extends PureComponent<Props, State> {
         group.addLayer(layer);
       });
       const shapes = group.toGeoJSON();
-      console.log('geoman shapes ', shapes);
+
       jsFileDownloader.makeJSON(shapes, 'floorplan');
     }
+    //@ts-ignore
+    if (this.map.pm.controlsVisible()) this.map.pm.toggleControls();
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
