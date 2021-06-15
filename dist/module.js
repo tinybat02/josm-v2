@@ -42746,7 +42746,7 @@ function (_super) {
     _this.inputFile = Object(react__WEBPACK_IMPORTED_MODULE_1__["createRef"])();
     _this.inputField = Object(react__WEBPACK_IMPORTED_MODULE_1__["createRef"])();
     _this.state = {
-      mode: 'Draw',
+      mode: 'None',
       selectFeature: null,
       key: '',
       value: '',
@@ -42805,7 +42805,7 @@ function (_super) {
 
           if (!_this.map.pm.controlsVisible()) _this.map.pm.toggleControls(); //@ts-ignore
 
-          _this.map.pm.enableDraw('Line');
+          _this.map.pm.enableDraw();
 
           return;
         }

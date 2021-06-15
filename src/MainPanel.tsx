@@ -65,7 +65,7 @@ export class MainPanel extends PureComponent<Props, State> {
   measureLayer: L.FeatureGroup;
 
   state: State = {
-    mode: 'Draw',
+    mode: 'None',
     selectFeature: null,
     key: '',
     value: '',
@@ -181,7 +181,7 @@ export class MainPanel extends PureComponent<Props, State> {
       if (!this.map.pm.controlsVisible()) this.map.pm.toggleControls();
 
       //@ts-ignore
-      this.map.pm.enableDraw('Line');
+      this.map.pm.enableDraw();
 
       return;
     }
