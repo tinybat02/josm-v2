@@ -182,7 +182,6 @@ export class MainPanel extends PureComponent<Props, State> {
 
       //@ts-ignore
       this.map.pm.enableDraw();
-
       return;
     }
 
