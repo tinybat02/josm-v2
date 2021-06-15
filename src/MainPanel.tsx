@@ -21,13 +21,18 @@ import Tag from './icons/Tag';
 import Download from './icons/Download';
 import Ruler from './images/measure.svg';
 import Noruler from './images/clear.svg';
+import Close from './images/close.svg';
 import './css/main.css';
 
 interface Props extends PanelProps<PanelOptions> {}
 interface State {
   mode: string;
   selectFeature: any | null;
-  label: string;
+  key: string;
+  value: string;
+  editFieldPos: [number, number];
+  editFieldValue: string;
+  properties: { key: string; value: string }[];
 }
 
 // L.Polyline = L.Polyline.include({
@@ -47,6 +52,10 @@ interface State {
 //   },
 // });
 
+function squareEditable(row: number, col: number, editField: [number, number]) {
+  return row == editField[0] && col == editField[1];
+}
+
 export class MainPanel extends PureComponent<Props, State> {
   id = 'id' + nanoid();
   map: Map;
@@ -58,7 +67,11 @@ export class MainPanel extends PureComponent<Props, State> {
   state: State = {
     mode: 'Draw',
     selectFeature: null,
-    label: '',
+    key: '',
+    value: '',
+    editFieldPos: [-1, 0],
+    editFieldValue: '',
+    properties: [],
   };
 
   componentDidMount() {
@@ -94,10 +107,18 @@ export class MainPanel extends PureComponent<Props, State> {
       e.layer.on('click', (e: L.LeafletEvent) => {
         const shape = e.target;
         if (this.state.mode != 'Tag') return;
-        let label = '';
-        if (shape.feature && shape.feature.properties) label = shape.feature.properties.name;
+        // let label = '';
+        // if (shape.feature && shape.feature.properties) label = shape.feature.properties.name;
+
+        let properties: { key: string; value: string }[] = [];
+        if (shape.feature) {
+          properties = Object.keys(shape.feature.properties).map(item => ({
+            key: item,
+            value: shape.feature.properties[item],
+          }));
+        }
         this.setState(
-          prev => ({ ...prev, selectFeature: shape, label }),
+          prev => ({ ...prev, selectFeature: shape, properties }),
           () => {
             this.inputField.current?.focus();
           }
@@ -116,7 +137,7 @@ export class MainPanel extends PureComponent<Props, State> {
     });
   }
 
-  componentDidUpdate(prevProps: Props) {}
+  // componentDidUpdate(prevProps: Props) {}
 
   uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (this.img) this.map.removeLayer(this.img);
@@ -185,21 +206,29 @@ export class MainPanel extends PureComponent<Props, State> {
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    this.setState({ label: value });
+    const { name, value } = e.target;
+    // @ts-ignore
+    this.setState({ [name]: value });
   };
 
   onAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == 'Enter') {
-      const { selectFeature, label } = this.state;
+    const { key, value, properties, selectFeature } = this.state;
+    if (e.key == 'Enter' && key && value) {
+      if (!selectFeature.feature) {
+        selectFeature.feature = {};
+        selectFeature.feature.type = 'Feature';
+        selectFeature.feature.properties = { [key]: value };
+      } else {
+        const clone = { ...selectFeature.feature.properties, [key]: value };
+        selectFeature.feature.properties = clone;
+      }
 
-      if (label == '') return;
-
-      selectFeature.feature = {};
-      selectFeature.feature.type = 'Feature';
-      selectFeature.feature.properties = { name: label };
-
-      this.setState(prev => ({ ...prev, selectFeature: null, label: '' }));
+      this.setState(
+        prev => ({ ...prev, key: '', value: '', properties: [...properties, { key, value }] }),
+        () => {
+          this.inputField.current?.focus();
+        }
+      );
     }
   };
 
@@ -213,9 +242,49 @@ export class MainPanel extends PureComponent<Props, State> {
     this.measureLayer.clearLayers();
   };
 
+  closeAttrTab = () => {
+    this.setState(prev => ({ ...prev, selectFeature: null, key: '', value: '', properties: [] }));
+  };
+
+  activeSquare = (row: number, col: number, fieldValue: string) => () => {
+    this.setState(prevState => ({ ...prevState, editFieldPos: [row, col], editFieldValue: fieldValue }));
+  };
+
+  editSquareField = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { editFieldPos, editFieldValue, properties, selectFeature } = this.state;
+    if (e.key === 'Enter') {
+      if (editFieldPos[1] == 0 && editFieldValue == '') {
+        const keyValue = properties[editFieldPos[0]].key;
+
+        const arr = properties.slice(0);
+        arr.splice(editFieldPos[0], 1);
+
+        delete selectFeature.feature.properties[keyValue];
+        this.setState(prevState => ({ ...prevState, editFieldPos: [-1, 0], editFieldValue: '', properties: arr }));
+        return;
+      }
+
+      const arr = properties.slice(0);
+      const key = editFieldPos[1] == 0 ? 'key' : 'value';
+
+      const keyValue = arr[editFieldPos[0]].key;
+      const valValue = arr[editFieldPos[0]].value;
+
+      if (editFieldPos[1] == 0) {
+        delete selectFeature.feature.properties[keyValue];
+        selectFeature.feature.properties[editFieldValue] = valValue;
+      } else {
+        selectFeature.feature.properties[keyValue] = editFieldValue;
+      }
+
+      arr[editFieldPos[0]][key] = editFieldValue;
+      this.setState(prevState => ({ ...prevState, editFieldPos: [-1, 0], editFieldValue: '', properties: arr }));
+    }
+  };
+
   render() {
     const { width, height } = this.props;
-    const { mode, selectFeature, label } = this.state;
+    const { mode, selectFeature, key, value, properties, editFieldPos, editFieldValue } = this.state;
 
     return (
       <div style={{ position: 'relative' }}>
@@ -238,7 +307,6 @@ export class MainPanel extends PureComponent<Props, State> {
           <SVGWrapper label="Download" handleClick={this.handleClick('Download')}>
             <Download mode={mode} />
           </SVGWrapper>
-          {/* <button onClick={this.onMeasure}>Measure</button> */}
         </div>
         <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 2, caretColor: 'transparent' }}>
           <img
@@ -268,19 +336,112 @@ export class MainPanel extends PureComponent<Props, State> {
           style={{
             position: 'absolute',
             display: selectFeature ? 'block' : 'none',
+            padding: 5,
             bottom: 5,
-            right: width / 2,
+            left: '50%',
+            marginLeft: -200,
             zIndex: 3,
           }}
         >
-          <input
-            ref={this.inputField}
-            type="text"
-            onChange={this.handleChange}
-            onKeyPress={this.onAddTag}
-            value={label}
-            style={{ padding: '10px 20px', borderRadius: 3, border: '1px solid #444' }}
-          />
+          <div style={{ position: 'relative' }}>
+            <img
+              src={Close}
+              style={{ position: 'absolute', top: -10, right: -10, cursor: 'pointer' }}
+              onClick={this.closeAttrTab}
+            />
+
+            <div style={{ width: 400, display: 'flex', flexDirection: 'column' }}>
+              <div>
+                <input
+                  ref={this.inputField}
+                  type="text"
+                  name="key"
+                  placeholder="Key"
+                  style={{ padding: '5px 10px', border: '1px solid #444', borderRadius: '3px 0 0 0', width: '50%' }}
+                  onChange={this.handleChange}
+                  value={key}
+                />
+                <input
+                  type="text"
+                  name="value"
+                  placeholder="Value"
+                  style={{
+                    padding: '5px 10px',
+                    border: '1px solid #444',
+                    borderLeft: 0,
+                    borderRadius: '0 3px 0 0',
+                    width: '50%',
+                  }}
+                  onChange={this.handleChange}
+                  onKeyPress={this.onAddTag}
+                  value={value}
+                />
+              </div>
+              {properties.map((pair, i) => (
+                <div style={{ display: 'flex', background: '#fff' }} key={i}>
+                  {squareEditable(i, 0, editFieldPos) ? (
+                    <input
+                      style={{
+                        width: '50%',
+                        border: '1px solid #444',
+                        borderTop: 0,
+                        padding: '5px 10px',
+                        background: '#d6e6e6',
+                      }}
+                      autoFocus
+                      name="editFieldValue"
+                      value={editFieldValue}
+                      onChange={this.handleChange}
+                      onKeyPress={this.editSquareField}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '50%',
+                        border: '1px solid #444',
+                        borderTop: 0,
+                        padding: '5px 10px',
+                        caretColor: 'transparent',
+                      }}
+                      onDoubleClick={this.activeSquare(i, 0, pair.key)}
+                    >
+                      {pair.key}
+                    </div>
+                  )}
+
+                  {squareEditable(i, 1, editFieldPos) ? (
+                    <input
+                      style={{
+                        width: '50%',
+                        padding: '5px 10px',
+                        borderRight: '1px solid #444',
+                        borderBottom: '1px solid #444',
+                        background: '#d6e6e6',
+                      }}
+                      autoFocus
+                      name="editFieldValue"
+                      value={editFieldValue}
+                      onChange={this.handleChange}
+                      onKeyPress={this.editSquareField}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '50%',
+                        padding: '5px 10px',
+                        borderRight: '1px solid #444',
+                        borderBottom: '1px solid #444',
+                        caretColor: 'transparent',
+                      }}
+                      onDoubleClick={this.activeSquare(i, 1, pair.value)}
+                    >
+                      {pair.value}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );

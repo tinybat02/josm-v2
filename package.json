@@ -14,7 +14,8 @@
     "@grafana/data": "next",
     "@grafana/toolkit": "next",
     "@grafana/ui": "next",
-    "@types/leaflet": "^1.7.0"
+    "@types/leaflet": "^1.7.0",
+    "tslib": "^2.1.0"
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "^2.11.1",

@@ -42259,7 +42259,7 @@ module.exports = function (css) {
 /*!******************************************!*\
   !*** ../node_modules/tslib/tslib.es6.js ***!
   \******************************************/
-/*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __createBinding, __exportStar, __values, __read, __spread, __spreadArrays, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault, __classPrivateFieldGet, __classPrivateFieldSet */
+/*! exports provided: __extends, __assign, __rest, __decorate, __param, __metadata, __awaiter, __generator, __createBinding, __exportStar, __values, __read, __spread, __spreadArrays, __spreadArray, __await, __asyncGenerator, __asyncDelegator, __asyncValues, __makeTemplateObject, __importStar, __importDefault, __classPrivateFieldGet, __classPrivateFieldSet */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42278,6 +42278,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__read", function() { return __read; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spread", function() { return __spread; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArrays", function() { return __spreadArrays; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArray", function() { return __spreadArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__await", function() { return __await; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncGenerator", function() { return __asyncGenerator; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncDelegator", function() { return __asyncDelegator; });
@@ -42306,11 +42307,13 @@ PERFORMANCE OF THIS SOFTWARE.
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
 
 function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42392,13 +42395,16 @@ function __generator(thisArg, body) {
     }
 }
 
-function __createBinding(o, m, k, k2) {
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
-}
+});
 
-function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
@@ -42430,19 +42436,27 @@ function __read(o, n) {
     return ar;
 }
 
+/** @deprecated */
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
 
+/** @deprecated */
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
         for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
             r[k] = a[j];
     return r;
-};
+}
+
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
 
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -42479,11 +42493,17 @@ function __makeTemplateObject(cooked, raw) {
     return cooked;
 };
 
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 }
 
@@ -42666,8 +42686,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_measure_svg__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_images_measure_svg__WEBPACK_IMPORTED_MODULE_20__);
 /* harmony import */ var _images_clear_svg__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./images/clear.svg */ "./images/clear.svg");
 /* harmony import */ var _images_clear_svg__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_images_clear_svg__WEBPACK_IMPORTED_MODULE_21__);
-/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./css/main.css */ "./css/main.css");
-/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_css_main_css__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./images/close.svg */ "./images/close.svg");
+/* harmony import */ var _images_close_svg__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_images_close_svg__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./css/main.css */ "./css/main.css");
+/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_css_main_css__WEBPACK_IMPORTED_MODULE_23__);
+
 
 
 
@@ -42707,6 +42730,10 @@ __webpack_require__.r(__webpack_exports__);
 //   },
 // });
 
+function squareEditable(row, col, editField) {
+  return row == editField[0] && col == editField[1];
+}
+
 var MainPanel =
 /** @class */
 function (_super) {
@@ -42721,8 +42748,12 @@ function (_super) {
     _this.state = {
       mode: 'Draw',
       selectFeature: null,
-      label: ''
-    };
+      key: '',
+      value: '',
+      editFieldPos: [-1, 0],
+      editFieldValue: '',
+      properties: []
+    }; // componentDidUpdate(prevProps: Props) {}
 
     _this.uploadImg = function (e) {
       if (_this.img) _this.map.removeLayer(_this.img);
@@ -42807,30 +42838,48 @@ function (_super) {
     };
 
     _this.handleChange = function (e) {
-      var value = e.target.value;
+      var _a;
 
-      _this.setState({
-        label: value
-      });
+      var _b = e.target,
+          name = _b.name,
+          value = _b.value; // @ts-ignore
+
+      _this.setState((_a = {}, _a[name] = value, _a));
     };
 
     _this.onAddTag = function (e) {
-      if (e.key == 'Enter') {
-        var _a = _this.state,
-            selectFeature = _a.selectFeature,
-            label = _a.label;
-        if (label == '') return;
-        selectFeature.feature = {};
-        selectFeature.feature.type = 'Feature';
-        selectFeature.feature.properties = {
-          name: label
-        };
+      var _a, _b;
+
+      var _c = _this.state,
+          key = _c.key,
+          value = _c.value,
+          properties = _c.properties,
+          selectFeature = _c.selectFeature;
+
+      if (e.key == 'Enter' && key && value) {
+        if (!selectFeature.feature) {
+          selectFeature.feature = {};
+          selectFeature.feature.type = 'Feature';
+          selectFeature.feature.properties = (_a = {}, _a[key] = value, _a);
+        } else {
+          var clone = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, selectFeature.feature.properties), (_b = {}, _b[key] = value, _b));
+
+          selectFeature.feature.properties = clone;
+        }
 
         _this.setState(function (prev) {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prev), {
-            selectFeature: null,
-            label: ''
+            key: '',
+            value: '',
+            properties: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(properties, [{
+              key: key,
+              value: value
+            }])
           });
+        }, function () {
+          var _a;
+
+          (_a = _this.inputField.current) === null || _a === void 0 ? void 0 : _a.focus();
         });
       }
     };
@@ -42847,6 +42896,77 @@ function (_super) {
 
     _this.clearMeasure = function () {
       _this.measureLayer.clearLayers();
+    };
+
+    _this.closeAttrTab = function () {
+      _this.setState(function (prev) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prev), {
+          selectFeature: null,
+          key: '',
+          value: '',
+          properties: []
+        });
+      });
+    };
+
+    _this.activeSquare = function (row, col, fieldValue) {
+      return function () {
+        _this.setState(function (prevState) {
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prevState), {
+            editFieldPos: [row, col],
+            editFieldValue: fieldValue
+          });
+        });
+      };
+    };
+
+    _this.editSquareField = function (e) {
+      var _a = _this.state,
+          editFieldPos = _a.editFieldPos,
+          editFieldValue = _a.editFieldValue,
+          properties = _a.properties,
+          selectFeature = _a.selectFeature;
+
+      if (e.key === 'Enter') {
+        if (editFieldPos[1] == 0 && editFieldValue == '') {
+          var keyValue_1 = properties[editFieldPos[0]].key;
+          var arr_1 = properties.slice(0);
+          arr_1.splice(editFieldPos[0], 1);
+          delete selectFeature.feature.properties[keyValue_1];
+
+          _this.setState(function (prevState) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prevState), {
+              editFieldPos: [-1, 0],
+              editFieldValue: '',
+              properties: arr_1
+            });
+          });
+
+          return;
+        }
+
+        var arr_2 = properties.slice(0);
+        var key = editFieldPos[1] == 0 ? 'key' : 'value';
+        var keyValue = arr_2[editFieldPos[0]].key;
+        var valValue = arr_2[editFieldPos[0]].value;
+
+        if (editFieldPos[1] == 0) {
+          delete selectFeature.feature.properties[keyValue];
+          selectFeature.feature.properties[editFieldValue] = valValue;
+        } else {
+          selectFeature.feature.properties[keyValue] = editFieldValue;
+        }
+
+        arr_2[editFieldPos[0]][key] = editFieldValue;
+
+        _this.setState(function (prevState) {
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prevState), {
+            editFieldPos: [-1, 0],
+            editFieldValue: '',
+            properties: arr_2
+          });
+        });
+      }
     };
 
     return _this;
@@ -42885,14 +43005,24 @@ function (_super) {
     this.map.on('pm:create', function (e) {
       e.layer.on('click', function (e) {
         var shape = e.target;
-        if (_this.state.mode != 'Tag') return;
-        var label = '';
-        if (shape.feature && shape.feature.properties) label = shape.feature.properties.name;
+        if (_this.state.mode != 'Tag') return; // let label = '';
+        // if (shape.feature && shape.feature.properties) label = shape.feature.properties.name;
+
+        var properties = [];
+
+        if (shape.feature) {
+          properties = Object.keys(shape.feature.properties).map(function (item) {
+            return {
+              key: item,
+              value: shape.feature.properties[item]
+            };
+          });
+        }
 
         _this.setState(function (prev) {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prev), {
             selectFeature: shape,
-            label: label
+            properties: properties
           });
         }, function () {
           var _a;
@@ -42912,16 +43042,20 @@ function (_super) {
     });
   };
 
-  MainPanel.prototype.componentDidUpdate = function (prevProps) {};
-
   MainPanel.prototype.render = function () {
+    var _this = this;
+
     var _a = this.props,
         width = _a.width,
         height = _a.height;
     var _b = this.state,
         mode = _b.mode,
         selectFeature = _b.selectFeature,
-        label = _b.label;
+        key = _b.key,
+        value = _b.value,
+        properties = _b.properties,
+        editFieldPos = _b.editFieldPos,
+        editFieldValue = _b.editFieldValue;
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       style: {
         position: 'relative'
@@ -43003,22 +43137,111 @@ function (_super) {
       style: {
         position: 'absolute',
         display: selectFeature ? 'block' : 'none',
+        padding: 5,
         bottom: 5,
-        right: width / 2,
+        left: '50%',
+        marginLeft: -200,
         zIndex: 3
       }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      style: {
+        position: 'relative'
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      src: _images_close_svg__WEBPACK_IMPORTED_MODULE_22___default.a,
+      style: {
+        position: 'absolute',
+        top: -10,
+        right: -10,
+        cursor: 'pointer'
+      },
+      onClick: this.closeAttrTab
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      style: {
+        width: 400,
+        display: 'flex',
+        flexDirection: 'column'
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
       ref: this.inputField,
       type: "text",
+      name: "key",
+      placeholder: "Key",
+      style: {
+        padding: '5px 10px',
+        border: '1px solid #444',
+        borderRadius: '3px 0 0 0',
+        width: '50%'
+      },
+      onChange: this.handleChange,
+      value: key
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      type: "text",
+      name: "value",
+      placeholder: "Value",
+      style: {
+        padding: '5px 10px',
+        border: '1px solid #444',
+        borderLeft: 0,
+        borderRadius: '0 3px 0 0',
+        width: '50%'
+      },
       onChange: this.handleChange,
       onKeyPress: this.onAddTag,
-      value: label,
-      style: {
-        padding: '10px 20px',
-        borderRadius: 3,
-        border: '1px solid #444'
-      }
-    })));
+      value: value
+    })), properties.map(function (pair, i) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          display: 'flex',
+          background: '#fff'
+        },
+        key: i
+      }, squareEditable(i, 0, editFieldPos) ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        style: {
+          width: '50%',
+          border: '1px solid #444',
+          borderTop: 0,
+          padding: '5px 10px',
+          background: '#d6e6e6'
+        },
+        autoFocus: true,
+        name: "editFieldValue",
+        value: editFieldValue,
+        onChange: _this.handleChange,
+        onKeyPress: _this.editSquareField
+      }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          width: '50%',
+          border: '1px solid #444',
+          borderTop: 0,
+          padding: '5px 10px',
+          caretColor: 'transparent'
+        },
+        onDoubleClick: _this.activeSquare(i, 0, pair.key)
+      }, pair.key), squareEditable(i, 1, editFieldPos) ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        style: {
+          width: '50%',
+          padding: '5px 10px',
+          borderRight: '1px solid #444',
+          borderBottom: '1px solid #444',
+          background: '#d6e6e6'
+        },
+        autoFocus: true,
+        name: "editFieldValue",
+        value: editFieldValue,
+        onChange: _this.handleChange,
+        onKeyPress: _this.editSquareField
+      }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          width: '50%',
+          padding: '5px 10px',
+          borderRight: '1px solid #444',
+          borderBottom: '1px solid #444',
+          caretColor: 'transparent'
+        },
+        onDoubleClick: _this.activeSquare(i, 1, pair.value)
+      }, pair.value));
+    })))));
   };
 
   return MainPanel;
@@ -43280,6 +43503,17 @@ var Tag = function Tag(_a) {
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTE5IDYuNDFMMTcuNTkgNSAxMiAxMC41OSA2LjQxIDUgNSA2LjQxIDEwLjU5IDEyIDUgMTcuNTkgNi40MSAxOSAxMiAxMy40MSAxNy41OSAxOSAxOSAxNy41OSAxMy40MSAxMiAxOSA2LjQxeiIvPjwvc3ZnPg=="
+
+/***/ }),
+
+/***/ "./images/close.svg":
+/*!**************************!*\
+  !*** ./images/close.svg ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMiAyQzYuNDcgMiAyIDYuNDcgMiAxMnM0LjQ3IDEwIDEwIDEwIDEwLTQuNDcgMTAtMTBTMTcuNTMgMiAxMiAyem01IDEzLjU5TDE1LjU5IDE3IDEyIDEzLjQxIDguNDEgMTcgNyAxNS41OSAxMC41OSAxMiA3IDguNDEgOC40MSA3IDEyIDEwLjU5IDE1LjU5IDcgMTcgOC40MSAxMy40MSAxMiAxNyAxNS41OXoiLz48L3N2Zz4="
 
 /***/ }),
 
