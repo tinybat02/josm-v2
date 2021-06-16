@@ -43051,6 +43051,16 @@ function (_super) {
   };
 
   MainPanel.prototype.componentDidUpdate = function (prevProps, prevState) {
+    if (prevProps.options.center_lat !== this.props.options.center_lat || prevProps.options.center_lon !== this.props.options.center_lon) {
+      var _a = this.props.options,
+          center_lat = _a.center_lat,
+          center_lon = _a.center_lon;
+      this.map.panTo([center_lat, center_lon], {
+        animate: true,
+        duration: 2
+      });
+    }
+
     if (prevState.mode !== this.state.mode) {
       if (prevState.mode == 'Tag') {
         this.setState(function (prev) {

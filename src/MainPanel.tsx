@@ -141,6 +141,17 @@ export class MainPanel extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
+    if (
+      prevProps.options.center_lat !== this.props.options.center_lat ||
+      prevProps.options.center_lon !== this.props.options.center_lon
+    ) {
+      const { center_lat, center_lon } = this.props.options;
+      this.map.panTo([center_lat, center_lon], {
+        animate: true,
+        duration: 2,
+      });
+    }
+
     if (prevState.mode !== this.state.mode) {
       if (prevState.mode == 'Tag') {
         this.setState(prev => ({ ...prev, selectFeature: null, key: '', value: '', properties: [] }));
