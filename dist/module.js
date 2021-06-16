@@ -42753,7 +42753,7 @@ function (_super) {
       editFieldPos: [-1, 0],
       editFieldValue: '',
       properties: []
-    }; // componentDidUpdate(prevProps: Props) {}
+    };
 
     _this.uploadImg = function (e) {
       if (_this.img) _this.map.removeLayer(_this.img);
@@ -43048,6 +43048,21 @@ function (_super) {
       // });
       _this.measureLayer.addLayer(e.layer);
     });
+  };
+
+  MainPanel.prototype.componentDidUpdate = function (prevProps, prevState) {
+    if (prevState.mode !== this.state.mode) {
+      if (prevState.mode == 'Tag') {
+        this.setState(function (prev) {
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, prev), {
+            selectFeature: null,
+            key: '',
+            value: '',
+            properties: []
+          });
+        });
+      }
+    }
   };
 
   MainPanel.prototype.render = function () {

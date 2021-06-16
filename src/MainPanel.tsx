@@ -140,7 +140,13 @@ export class MainPanel extends PureComponent<Props, State> {
     });
   }
 
-  // componentDidUpdate(prevProps: Props) {}
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState.mode !== this.state.mode) {
+      if (prevState.mode == 'Tag') {
+        this.setState(prev => ({ ...prev, selectFeature: null, key: '', value: '', properties: [] }));
+      }
+    }
+  }
 
   uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (this.img) this.map.removeLayer(this.img);
