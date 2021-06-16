@@ -42629,7 +42629,7 @@ var MainEditor = function MainEditor(_a) {
     labelWidth: 10,
     inputWidth: 40,
     type: "number",
-    name: "zoom_level",
+    name: "zoom",
     value: inputs.zoom,
     onChange: handleChange
   }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {

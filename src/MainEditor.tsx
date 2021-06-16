@@ -48,7 +48,7 @@ export const MainEditor: React.FC<PanelEditorProps<PanelOptions>> = ({ options, 
             labelWidth={10}
             inputWidth={40}
             type="number"
-            name="zoom_level"
+            name="zoom"
             value={inputs.zoom}
             onChange={handleChange}
           />
