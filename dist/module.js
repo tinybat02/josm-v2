@@ -42713,22 +42713,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // L.Polyline = L.Polyline.include({
-//   getDistance: function(system: any) {
-//     // distance in meters
-//     var mDistanse = 0,
-//       length = this._latlngs.length;
-//     for (var i = 1; i < length; i++) {
-//       mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
-//     }
-//     // optional
-//     if (system === 'imperial') {
-//       return mDistanse / 1609.34;
-//     } else {
-//       return mDistanse / 1000;
-//     }
-//   },
-// });
+
+leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.Polyline = leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.Polyline.include({
+  getDistance: function getDistance(system) {
+    // distance in meters
+    var mDistanse = 0,
+        length = this._latlngs.length;
+
+    for (var i = 1; i < length; i++) {
+      mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
+    } // optional
+
+
+    if (system === 'imperial') {
+      return mDistanse / 1609.34;
+    } else {
+      return mDistanse / 1000;
+    }
+  }
+});
 
 function squareEditable(row, col, editField) {
   return row == editField[0] && col == editField[1];
@@ -42990,7 +42993,7 @@ function (_super) {
     leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxNativeZoom: 18,
-      maxZoom: 24
+      maxZoom: 26
     }).addTo(this.map);
     this.measureLayer = new leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.FeatureGroup();
     this.map.addLayer(this.measureLayer); //@ts-ignore
@@ -43040,12 +43043,13 @@ function (_super) {
       });
     });
     this.map.on('draw:created', function (e) {
-      // const distance = (e.layer.getDistance() * 1000).toFixed(2);
-      // e.layer.bindTooltip(distance, {
-      //   permanent: true,
-      //   offset: [0, 12],
-      //   backgroundColor: 'rgba(0, 0, 0, 0);',
-      // });
+      var distance = (e.layer.getDistance() * 1000).toFixed(2) + ' m';
+      e.layer.bindTooltip(distance, {
+        permanent: true,
+        offset: [0, 12],
+        backgroundColor: 'rgba(0, 0, 0, 0);'
+      });
+
       _this.measureLayer.addLayer(e.layer);
     });
   };

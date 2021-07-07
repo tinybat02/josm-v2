@@ -35,22 +35,22 @@ interface State {
   properties: { key: string; value: string }[];
 }
 
-// L.Polyline = L.Polyline.include({
-//   getDistance: function(system: any) {
-//     // distance in meters
-//     var mDistanse = 0,
-//       length = this._latlngs.length;
-//     for (var i = 1; i < length; i++) {
-//       mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
-//     }
-//     // optional
-//     if (system === 'imperial') {
-//       return mDistanse / 1609.34;
-//     } else {
-//       return mDistanse / 1000;
-//     }
-//   },
-// });
+L.Polyline = L.Polyline.include({
+  getDistance: function(system: any) {
+    // distance in meters
+    var mDistanse = 0,
+      length = this._latlngs.length;
+    for (var i = 1; i < length; i++) {
+      mDistanse += this._latlngs[i].distanceTo(this._latlngs[i - 1]);
+    }
+    // optional
+    if (system === 'imperial') {
+      return mDistanse / 1609.34;
+    } else {
+      return mDistanse / 1000;
+    }
+  },
+});
 
 function squareEditable(row: number, col: number, editField: [number, number]) {
   return row == editField[0] && col == editField[1];
@@ -81,7 +81,7 @@ export class MainPanel extends PureComponent<Props, State> {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxNativeZoom: 18,
-      maxZoom: 24,
+      maxZoom: 26,
     }).addTo(this.map);
 
     this.measureLayer = new L.FeatureGroup();
@@ -130,12 +130,12 @@ export class MainPanel extends PureComponent<Props, State> {
     });
 
     this.map.on('draw:created', e => {
-      // const distance = (e.layer.getDistance() * 1000).toFixed(2);
-      // e.layer.bindTooltip(distance, {
-      //   permanent: true,
-      //   offset: [0, 12],
-      //   backgroundColor: 'rgba(0, 0, 0, 0);',
-      // });
+      const distance = (e.layer.getDistance() * 1000).toFixed(2) + ' m';
+      e.layer.bindTooltip(distance, {
+        permanent: true,
+        offset: [0, 12],
+        backgroundColor: 'rgba(0, 0, 0, 0);',
+      });
       this.measureLayer.addLayer(e.layer);
     });
   }
